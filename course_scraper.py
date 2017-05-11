@@ -41,7 +41,7 @@ password.clear()
 password.send_keys(netid['password'])
 user.submit()
 
-for cur in range(ord('a'), ord('b')):
+for cur in range(ord('a'), ord('z')):
 	driver.get("https://www.washington.edu/cec/" + chr(cur) + "-toc.html")
 	urls = driver.find_elements_by_tag_name('a')
 	cur_urls = map(lambda x: x.get_attribute("href"), urls)
