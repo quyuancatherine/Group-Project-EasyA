@@ -3,6 +3,12 @@ from selenium.webdriver.common.keys import Keys
 import sqlite3
 from secret import netid
 
+# This is DEFINITELY NOT SAFE. Don't use this. I will scrape everything.
+#
+# This file will not work unless you have created a different file called "secret.py" with a dictionary like this:
+# netid = {'user':'your netid here',
+#	'password':'your netid password here'}
+
 # setup database
 db = sqlite3.connect('evals')
 c = db.cursor()
