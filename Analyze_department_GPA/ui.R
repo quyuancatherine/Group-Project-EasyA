@@ -16,8 +16,8 @@ shinyUI(fluidPage(
                   choices = department.name,
                   selected = "Aeronautics & Astronautics"),
       
-      helpText(p('By choosing the time range, the plot will only display the department of
-                 your interest within that time range.')),
+      helpText(p('By choosing the time range, the plot will only display the department you choose
+                 within that time range.')),
       
       selectInput("time", 
                   label = "choose a time range to display",
