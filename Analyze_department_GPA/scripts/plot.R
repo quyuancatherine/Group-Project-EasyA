@@ -11,7 +11,7 @@ PlotChart <- function(data, interest, select.time){
   
   p <- plot_ly(data = filter.department, x = ~added, y = ~Average_GPA,
                type = 'scatter', mode = 'markers', size = ~Average_GPA) %>% 
-    layout(xaxis = list(tickfont = list(size = 1)))
+    layout(xaxis = list(tickfont = list(size = 1), title = 'Course Name'))
   
   return(p)
 }
