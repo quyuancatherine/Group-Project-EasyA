@@ -15,6 +15,5 @@ PlotChart <- function(data, interest, select.time){
   
   return(p)
 }
-
-
+#lala <- read.csv("full_data.csv")
 
