@@ -17,15 +17,11 @@ shinyUI(fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      #helpText("Create a bar plot by choosing your department of interest"),
       
       selectInput("course number", 
                   label = "Course Number",
                   choices = course.num,
                   selected = "A A 198 A"),
-      
-      #helpText(p('By choosing the time range, the plot will only display the department you choose
-                 # within that time range.')),
       
       selectInput("instructor", 
                   label = "Instructor",

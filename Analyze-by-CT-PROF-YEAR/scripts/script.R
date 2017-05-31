@@ -8,8 +8,7 @@ HistChart <- function(data, select.course.num, select.instructor.name, select.te
             filter(grepl(select.term, Term))
   
   p <- plot_ly(data = filter, x = ~Course_Number, y = ~Average_GPA,
-               type = 'histogram') #%>% 
-    #layout(xaxis = list(tickfont = list(size = 1)))
+               type = 'histogram')
   
   return(p)
 }
