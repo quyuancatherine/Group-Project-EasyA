@@ -1,25 +1,15 @@
 
-
-
-#University of Washington Grade Distribution Analysis
-
 ![](./Cherries.jpg)
 
-###By Baochau Tran, Jacob Siegelman, Yuan Qu, Yuwen Kuang, and Zubin Chopra
+###What data does this site show?
 
-This website is the final project for INFO 201 at University of Washington. In this project, we obtained grade distributions from all University of Washington classes between 2010 and 2016 and made several charts to analyze and visualize various trends in the data. The website itself was made in R with various libraries including DPLYR, Plotly, and Shiny. We hope that UW students will be able to use this data to inform themselves about the many departments, classes, and professors at the University and ultimately use this information to make better decisions for their future.
+This website uses the grade distributions from all University of Washington classes between 2010 and 2016. This data is used to give students insights about their classes and professors beyond the course evaluation catalog and ratemyprofessor.com
 
-##Frequently Asked Questions
+###Where does this data come from?
 
-###What Data does this Site Show?
+All grade data was obtained by Austin Walters via FOIA request for Easy A, a student advising website. Visit [easy-a.net](easy-a.net) for more information. This data contains over 30,000 classes information from UW.
 
-This website uses the grade distributions from all University of Washington classes between 2010 and 2016. All data presented is official University of Washington data. This data set includes all classes offered by the University along with the primary instructor, course title, the number of students that received each grade, and the average GPA of the section. The data is generally split by letter grade instead of raw GPA, but most representations of this data is based on average received GPA from 0.0 to 4.0.
-
-###How was this data obtained?
-
-All grade data was obtained by Austin Walters via FOIA request for Easy A, a student advising website. Visit easy-a.net for more information.
-
-###What is the Freedom of Information Act?
+###What is the Freedom of Information Act (FIOA)?
 
 The FOIA is a law signed by Lyndon B Johnson in 1966 that states that federal agencies must allow the public to request records for any reason. Since the University of Washington is a public university, the FOIA allows us to request grade data as long as the data requested does not violate the privacy of any student. This means that we can obtain grade distributions, but not a specific student's grades.
 
@@ -29,7 +19,7 @@ The short answer is yes. The long answer is you can definitely make a prediction
 
 ###Will the data cover 2016-2017 school year?
 
-Unfortunately, the grade data from 2016-2017 has not been release yet.
+Unfortunately, the grade from 2016-2017 has not been release yet.
 
 ###Can I share this website to my friend?
 
@@ -42,4 +32,4 @@ Baochau Tran (English, Vietnamese): bc1212@uw.edu<br>
 Zubin Chopra (English): zubinc@uw.edu<br>
 Yuwen Kuang (English, Chinese): kuangy3@uw.edu<br>
 Yuan Qu (English, Chinese): quyuan0522@yahoo.com<br>
-Jacob Kernan Siegelman (English): jacsieg@uw.edu<br>
+Jacob Kernan Siegelman (English): jacsieg@uw.edu
