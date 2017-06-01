@@ -1,12 +1,9 @@
 
 library(shiny)
 library(plotly)
-library(XML)
 library(stringr)
 library(dplyr)
 library(plotly)
-library(XML)
-library(jsonlite)
 shinyServer(function(input, output) {
   # Load Data
   grade.data <- read.csv("full_data.csv", stringsAsFactors = FALSE)
@@ -53,15 +50,24 @@ shinyServer(function(input, output) {
     renderDataTable(by_professor, options = list(pageLength = 10, autowidth = TRUE))
   })
   output$prof_graph <- renderPlotly({
+    # Find average GPA for each class input professor has taught
     by_professor <- grade.data %>% filter(Primary_Instructor == input$prof.var) %>% group_by(department_name, Course_Title) %>% summarize(avg.grade = mean(Average_GPA))
+    
     plot_ly(by_professor, x = ~Course_Title, y = ~avg.grade, type = 'bar') %>% layout(margin = list(b = 200), xaxis = list(title = "Course Title"), yaxis = list(title = "Average GPA"))
   })
+  
+  # Create extremes table
   output$extremes <- renderPlotly({
+    # Filter for current department and sort professors by average gpa
     cur_department <- grade.data %>% filter(department_name == input$dept.var) %>% group_by(Primary_Instructor) %>% summarize(classes = n(), avg.grade = mean(Average_GPA))
+    
+    # Find the top 5, bottom 5, and average
     top <- cur_department %>% top_n(5)
     bottom <- cur_department %>% top_n(-5)
     avg <- grade.data %>% filter(department_name == input$dept.var) %>% summarize(classes = n(), avg.grade = mean(Average_GPA)) %>% mutate(Primary_Instructor = "Average")
     avg[1, 'classes'] = 0
+    
+    # Put them together and plot
     tot <- bind_rows(top, avg, bottom) %>% arrange(-avg.grade)
     plot_ly(tot, x = ~Primary_Instructor, y = ~avg.grade, type = 'bar') %>% layout(margin = list(b = 160), xaxis = list(title = "Course Title", categoryorder = "array", categoryarray = tot$Primary_Instructor), yaxis = list(title = "Average GPA/Number of Classes taught"))
   })
