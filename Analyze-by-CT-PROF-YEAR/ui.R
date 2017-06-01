@@ -1,6 +1,7 @@
 library(shiny)
 library(plotly)
 
+# choices that used in wedgits 
 grade.data <- read.csv("full_data.csv")
 course.num <- unique(grade.data$Course_Number)
 instructor.name <- unique(grade.data$Primary_Instructor)
@@ -16,35 +17,28 @@ shinyUI(fluidPage(
   titlePanel("Search Grades"),
   
   sidebarLayout(
+    # Creating control panel on the side bar
     sidebarPanel(
       
+      # select input for course number 
       selectInput("course number", 
                   label = "Course Number",
                   choices = course.num,
-                  selected = "A A 198 A"),
+                  selected = "A A 210 A"),
       
+      # select input for instrucor
       selectInput("instructor", 
                   label = "Instructor",
                   choices = instructor.name,
                   selected = 'KNOWLEN, CARL'),
       
+      # select input for academic term
       selectInput("term", 
                   label = "Term",
                   choices = term,
                   selected = 'Autumn 2010')
-      
-     
-    # checkboxGroupInput("year", 
-     #                    label = "Year",
-     #                    choices = c("2010", "2011", "2012", "2013", "2014", "2015", "2016"), 
-    #                     selected = c("2010", "2011", "2012", "2013", "2014", "2015", "2016")),
-      
-    #  checkboxGroupInput("term", 
-     #                    label = "Term",
-     #                    choices = c("Autumn", "Winter", "Spring", "Summer"), 
-     #                    selected = c("Autumn", "Winter", "Spring", "Summer"))
       ),
-    
+    # Creating display panel
     mainPanel(plotlyOutput("histogram"))
   )
 ))

@@ -1,7 +1,9 @@
 library(shiny)
+library(plotly)
+
+# Loading required data
 source('./scripts/script.R')
 grade.data <- read.csv("full_data.csv")
-library(plotly)
 
 shinyServer(
   function(input, output) {
