@@ -42,7 +42,7 @@ shinyServer(function(input, output) {
   })
   
   output$plotly <- renderPlotly({
-    plot_ly(type = 'scatter', data = b(), x = ~Academic_Year, y = ~Average_GPA, sizes = ~Average_GPA, color = ~Course_Number, text = ~paste('Section: ', Course_Number)) %>% layout(margin = list(b = 160))
+    plot_ly(type = 'scatter', data = b(), x = ~Academic_Year, y = ~Average_GPA, sizes = ~Average_GPA, color = ~Course_Number, text = ~paste('Section: ', Course_Number, '<br>', Primary_Instructor)) %>% layout(margin = list(b = 160))
   })
   
   output$prof_table <- reactive({
