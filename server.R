@@ -27,13 +27,13 @@ shinyServer(function(input, output) {
   
   #Reactive charts
   a <- reactive({
-    x <- filter(grade.data, Course_Title == input$course.var)
-    y <- unique(x$department_name)
+    x <- filter(grade.data, department_name == input$dep.var)
+    y <- x$Course_Title
     return(y)
   })
   
-  output$depControl <- renderUI({
-    selectInput('dep.var', 'Select Department', choices = a())
+  output$selectCourse <- renderUI({
+    selectInput('course.var', 'Select Course', choices = a())
   })
   
   b <- reactive({

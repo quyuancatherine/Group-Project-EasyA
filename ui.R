@@ -91,9 +91,9 @@ shinyUI(
                
                mainPanel(
                  # Add a textInput that allows the user to enter the class for which the grade data is needed.
-                 selectInput('course.var', label = 'Select Course', choices = unique.course),
+                 selectInput('dep.var', label = 'Select Department', choices = unique.dept),
                  
-                 uiOutput('depControl'),
+                 uiOutput('selectCourse'),
                  
                  # Displays the scatter plot.
                  plotlyOutput('plotly')
