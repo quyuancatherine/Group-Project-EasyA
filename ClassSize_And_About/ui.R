@@ -1,5 +1,5 @@
 #FinalINFO201 ui
-#install.packages("shinydashboard")
+install.packages("shinydashboard")
 library(shiny)
 library(shinydashboard)
 library(plotly)
