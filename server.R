@@ -28,7 +28,7 @@ shinyServer(function(input, output) {
   })
   
   
-  
+  #Reactive charts
   a <- reactive({
     x <- filter(grade.data, Course_Title == input$course.var)
     y <- unique(x$department_name)
