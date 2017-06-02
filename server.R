@@ -16,12 +16,6 @@ shinyServer(function(input, output) {
   output$department_table <- renderDataTable(by_department, options = list(pageLength = 10, autowidth = TRUE))
   
 
-  observeEvent(input$course.number, {
-    print(paste("New course number is", input$course.number))
-  })
-  observeEvent(input$cur_prof, {
-    print(paste("New prof is", input$prof.var))
-  })
   # Other Charts
   
   profs <- reactive({
@@ -68,7 +62,7 @@ shinyServer(function(input, output) {
   #Reactive charts
   a <- reactive({
     x <- filter(grade.data, department_name == input$dep.var)
-    y <- x$Course_Title
+    y <- unique(x$Course_Title)
     return(y)
   })
   
