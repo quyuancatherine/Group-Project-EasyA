@@ -24,7 +24,7 @@ term <- c("Autumn 2010",
 unique.course <- unique(grade.data$Course_Title)
 unique.prof <- unique(grade.data$Primary_Instructor)
 unique.dept <- unique(grade.data$department_name)
-unique.size <- unique(grade.data$Student_Count)
+unique.size <- order(unique(grade.data$Student_Count))
 
 
 # Define UI for application that draws a histogram
@@ -106,13 +106,16 @@ shinyUI(
              
              # this is class size tab, user input as size of the class
              tabPanel("Class Size", fluidPage(
-               titlePanel("Compare Average based on Class Size"),
-               "Select your first interest class size",
+               titlePanel("Compare Average for Each Letter Grade"),
+               "**Note that the Sum of the Average will not equal to the class size.", 
+               "It will represent the average students get that letter grade out of total students in the class",
+               tags$br(), "Select your first interest class size",
                selectInput("classinput1", label = "Select Class Size", choices = unique.size),
                tableOutput("size1.gpa"),
                "Select your second interest class size",
                selectInput("classinput2", label = "Select Class Size", choices = unique.size),
                tableOutput("size2.gpa")
+               
                
              ))
              
