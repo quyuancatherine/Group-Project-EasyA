@@ -7,23 +7,63 @@ library(plotly)
 shinyServer(function(input, output) {
   # Load Data
   grade.data <- read.csv("full_data.csv", stringsAsFactors = FALSE)
+  grade.data <- grade.data %>% rename(  `A-` = `A.`, `B+` = `B.`, `B-` = `B..1`, `C+` = `C.`, `C-` = `C..1`, `D+` = `D.`, `D-` = `D..1`)
   # Department Table
+
   by_department <- grade.data %>% group_by(department) %>%
     summarize(classes = n(), students = sum(Student_Count), mean_students = students/classes, mean_gpa = mean(Average_GPA)) %>% arrange(department)
   colnames(by_department) <- c("Department Code", "Total Classes", "Total Students", "Mean Enrollment", "Mean GPA")
   output$department_table <- renderDataTable(by_department, options = list(pageLength = 10, autowidth = TRUE))
   
-  # Other Charts
-  source('./scripts/script.R')
-  output$histogram <- renderPlotly({
-    return(HistChart(grade.data, input$`course number`, input$instructor, input$term))
+
+  observeEvent(input$course.number, {
+    print(paste("New course number is", input$course.number))
   })
+  observeEvent(input$cur_prof, {
+    print(paste("New prof is", input$prof.var))
+  })
+  # Other Charts
+  
+  profs <- reactive({
+    x <- filter(grade.data, Course_Number == input$course.number)
+    y <- unique(x$Primary_Instructor)
+    return(y)
+  })
+  
+  output$profControl <- renderUI({
+    selectInput('cur_prof', 'Select Professor', choices = profs())
+  })
+  
+  cur_terms <- reactive({
+    x <- filter(grade.data, Course_Number == input$course.number, Primary_Instructor == input$cur_prof)
+    y <- unique(x$Term)
+    return(y)
+  })
+  
+  output$termControl <- renderUI({
+    selectInput('term.var', 'Select Term', choices = cur_terms())
+  })
+  
+
+  tot_data <- reactive({
+    x <- filter(grade.data, Course_Number == input$course.number, Term == input$term.var, Primary_Instructor == input$cur_prof) %>% select(`A`, `A-`, `B+`, `B`, `B-`, `C+`, `C`, `C-`, `D+`, `D`, `D-`, `F`)
+    return(x)
+  })
+  
+  output$course_plot <- renderPlotly({
+    final_data <- stack(tot_data())
+    plot_ly(final_data, x = ~ind, y = ~values, type = 'bar') %>% layout( margin = list(b = 160), xaxis = list(title = "Grade", categoryorder = 'array', categoryarray = c("A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F")), yaxis = list(title = "Number of Students"))
+  })
+  
+  
+  
+  
+  
   
   source('./scripts/plot.R')
   output$chart <- renderPlotly({
     return(PlotChart(grade.data, input$department, input$time))
   })
-  
   
   #Reactive charts
   a <- reactive({
@@ -44,6 +84,8 @@ shinyServer(function(input, output) {
   output$plotly <- renderPlotly({
     plot_ly(type = 'scatter', data = b(), x = ~Academic_Year, y = ~Average_GPA, sizes = ~Average_GPA, color = ~Course_Number, text = ~paste('Section: ', Course_Number, '<br>', Primary_Instructor)) %>% layout(margin = list(b = 160))
   })
+  
+  
   
   output$prof_table <- reactive({
     by_professor <- grade.data %>% filter(Primary_Instructor == input$prof.var) %>% group_by(department_name, Course_Title) %>% summarize(terms = n(), avg.grade = mean(Average_GPA), mean_students = mean(Student_Count))
@@ -69,7 +111,7 @@ shinyServer(function(input, output) {
     
     # Put them together and plot
     tot <- bind_rows(top, avg, bottom) %>% arrange(-avg.grade)
-    plot_ly(tot, x = ~Primary_Instructor, y = ~avg.grade, type = 'bar') %>% layout(margin = list(b = 160), xaxis = list(title = "Course Title", categoryorder = "array", categoryarray = tot$Primary_Instructor), yaxis = list(title = "Average GPA/Number of Classes taught"))
+    plot_ly(tot, x = ~Primary_Instructor, y = ~avg.grade, type = 'bar') %>% layout(margin = list(b = 160), xaxis = list(title = "Course Title", categoryorder = "array", categoryarray = tot$Primary_Instructor), yaxis = list(title = "Average GPA"))
   })
   
 })

@@ -11,6 +11,7 @@ library(shiny)
 library(plotly)
 
 grade.data <- read.csv("full_data.csv")
+grade.data <- grade.data %>% rename(  `A-` = `A.`, `B+` = `B.`, `B-` = `B..1`, `C+` = `C.`, `C-` = `C..1`, `D+` = `D.`, `D-` = `D..1`)
 course.num <- unique(grade.data$Course_Number)
 instructor.name <- unique(grade.data$Primary_Instructor)
 term <- c("Autumn 2010", 
@@ -25,7 +26,6 @@ unique.prof <- unique(grade.data$Primary_Instructor)
 unique.dept <- unique(grade.data$department_name)
 
 
-
 # Define UI for application that draws a histogram
 shinyUI(
   navbarPage("University of Washington Grade Data",
@@ -33,29 +33,20 @@ shinyUI(
                       mainPanel(shiny::includeHTML("./static/faq.html"))),
              tabPanel("Class Overview",
                       fluidPage(
-                        titlePanel("Search by Class"),
                         sidebarLayout(
                           sidebarPanel(
                             
-                            selectInput("course number", 
-                                        label = "Course Number",
-                                        choices = course.num,
-                                        selected = "A A 198 A"),
+                            selectInput('course.number', label = 'Select Course', choices = course.num),
                             
-                            selectInput("instructor", 
-                                        label = "Instructor",
-                                        choices = instructor.name,
-                                        selected = 'KNOWLEN, CARL'),
+                            uiOutput('profControl'),
                             
-                            selectInput("term", 
-                                        label = "Term",
-                                        choices = term,
-                                        selected = 'Autumn 2010')
-                          ),
-                          
-                          mainPanel(plotlyOutput("histogram"))
-                        )
-                      )),
+                            uiOutput('termControl')
+                            
+                            
+                        ),
+                        mainPanel(plotlyOutput("course_plot"))
+
+                      ))),
              tabPanel("Department Table",
                       mainPanel(dataTableOutput("department_table"))
              ),
