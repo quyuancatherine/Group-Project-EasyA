@@ -23,6 +23,7 @@ term <- c("Autumn 2010",
 unique.course <- unique(grade.data$Course_Title)
 unique.prof <- unique(grade.data$Primary_Instructor)
 unique.dept <- unique(grade.data$department_name)
+unique.size <- unique(grade.data$Student_Count)
 
 
 
@@ -110,7 +111,20 @@ shinyUI(
                titlePanel("View the Easiest and Hardest Professors in each Department"),
                selectInput('dept.var', label = 'Select Department', choices = unique.dept),
                plotlyOutput('extremes')
+             )),
+             
+             # this is class size tab, user input as size of the class
+             tabPanel("Class Size", fluidPage(
+               titlePanel("Compare Average based on Class Size"),
+               "Select your first interest class size",
+               selectInput("classinput1", label = "Select Class Size", choices = unique.size),
+               tableOutput("size1.gpa"),
+               "Select your second interest class size",
+               selectInput("classinput2", label = "Select Class Size", choices = unique.size),
+               tableOutput("size2.gpa")
+               
              ))
+             
              
   )
 )
