@@ -24,6 +24,7 @@ term <- c("Autumn 2010",
 unique.course <- unique(grade.data$Course_Title)
 unique.prof <- unique(grade.data$Primary_Instructor)
 unique.dept <- unique(grade.data$department_name)
+unique.size <- unique(grade.data$Student_Count)
 
 
 # Define UI for application that draws a histogram
@@ -82,9 +83,9 @@ shinyUI(
                
                mainPanel(
                  # Add a textInput that allows the user to enter the class for which the grade data is needed.
-                 selectInput('course.var', label = 'Select Course', choices = unique.course),
+                 selectInput('dep.var', label = 'Select Department', choices = unique.dept),
                  
-                 uiOutput('depControl'),
+                 uiOutput('selectCourse'),
                  
                  # Displays the scatter plot.
                  plotlyOutput('plotly')
@@ -101,7 +102,20 @@ shinyUI(
                titlePanel("View the Easiest and Hardest Professors in each Department"),
                selectInput('dept.var', label = 'Select Department', choices = unique.dept),
                plotlyOutput('extremes')
+             )),
+             
+             # this is class size tab, user input as size of the class
+             tabPanel("Class Size", fluidPage(
+               titlePanel("Compare Average based on Class Size"),
+               "Select your first interest class size",
+               selectInput("classinput1", label = "Select Class Size", choices = unique.size),
+               tableOutput("size1.gpa"),
+               "Select your second interest class size",
+               selectInput("classinput2", label = "Select Class Size", choices = unique.size),
+               tableOutput("size2.gpa")
+               
              ))
+             
              
   )
 )

@@ -67,13 +67,13 @@ shinyServer(function(input, output) {
   
   #Reactive charts
   a <- reactive({
-    x <- filter(grade.data, Course_Title == input$course.var)
-    y <- unique(x$department_name)
+    x <- filter(grade.data, department_name == input$dep.var)
+    y <- x$Course_Title
     return(y)
   })
   
-  output$depControl <- renderUI({
-    selectInput('dep.var', 'Select Department', choices = a())
+  output$selectCourse <- renderUI({
+    selectInput('course.var', 'Select Course', choices = a())
   })
   
   b <- reactive({
@@ -113,5 +113,51 @@ shinyServer(function(input, output) {
     tot <- bind_rows(top, avg, bottom) %>% arrange(-avg.grade)
     plot_ly(tot, x = ~Primary_Instructor, y = ~avg.grade, type = 'bar') %>% layout(margin = list(b = 160), xaxis = list(title = "Course Title", categoryorder = "array", categoryarray = tot$Primary_Instructor), yaxis = list(title = "Average GPA"))
   })
+  
+  source('./scripts/size.R')
+  
+  ################## 
+  #this will take in 2 class sizes as the user interest, will return the average gpa and letter grade
+  output$size1.gpa <- renderTable({
+    size1 <- input$classinput1
+    size1.data <- data.frame(#start data frame
+      Grade = c("GPA",
+                "A 90-100%",
+                "B 80-89%",
+                "C 70-79%",
+                "D 60-69%",
+                "F 0-59%",
+                "W Withdraw"),
+      Average = c(paste(ClasssizeGPA(size1)),
+      paste(ClasssizeLetterA(size1),"student"),
+      paste(ClasssizeLetterB(size1),"student"),
+      paste(ClasssizeLetterC(size1),"student"),
+      paste(ClasssizeLetterD(size1),"student"),
+      paste(ClasssizeLetterF(size1),"student"),
+      paste(ClasssizeLetterW(size1),"student"))
+    )#end data frame
+  }) #end size1
+    
+  output$size2.gpa <- renderTable({
+    size2 <- input$classinput2
+    size2.data <- data.frame(#start data frame
+      Grade = c("GPA",
+                "A 90-100%",
+                "B 80-89%",
+                "C 70-79%",
+                "D 60-69%",
+                "F 0-59%",
+                "W Withdraw"),
+      Average = c(paste(ClasssizeGPA(size2)),
+                  paste(ClasssizeLetterA(size2),"student"),
+                  paste(ClasssizeLetterB(size2),"student"),
+                  paste(ClasssizeLetterC(size2),"student"),
+                  paste(ClasssizeLetterD(size2),"student"),
+                  paste(ClasssizeLetterF(size2),"student"),
+                  paste(ClasssizeLetterW(size2),"student"))
+    )#end data frame
+  }) #end size2
+    #############
+   
   
 })
